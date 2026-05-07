@@ -192,7 +192,7 @@ export default function Hero({ onOpenForm }) {
             {/* Top right card */}
             <div className="hidden sm:block col-span-4 row-span-3 relative overflow-hidden rounded-[24px] group">
               <SmartImage
-                src="https://images.unsplash.com/photo-1618599527032-31124e95c89f"
+                src="https://viknaroff.ua/wp-content/uploads/2024/10/vhidni-plastikovi-dveri.webp"
                 alt="Двері Viknar'off"
                 width={600}
                 className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110"
@@ -214,7 +214,7 @@ export default function Hero({ onOpenForm }) {
             {/* Bottom right card */}
             <div className="hidden sm:block col-span-4 row-span-3 relative overflow-hidden rounded-[24px] group">
               <SmartImage
-                src="https://images.unsplash.com/photo-1758998256408-ab2c9fbec19b"
+                src="https://viknaroff.ua/wp-content/uploads/2024/06/35bca50cf6e23ca7c41cabde2431ed37.webp"
                 alt="Розсувні системи"
                 width={600}
                 className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110"

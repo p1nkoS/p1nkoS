@@ -1,0 +1,44 @@
+{
+  "summary": "Tested Viknar'off frontend (home, /catalog/windows, /doors, /sliding, /additional, /product/gealan-s9000, brand filter, mobile) and backend leads API. Backend 9/9 pytest passing. Catalog pages render correctly with 19 windows / 11 doors / 2 sliding / 10 additional - all 11 expected door names present. All catalog and product detail images come from viknaroff.ua/wp-content/uploads (no Unsplash). HOWEVER the homepage Hero (/src/components/Hero.jsx) still uses 3 Unsplash photos for the hero slider, contradicting the user's hard requirement that the hero show a real Gealan window cross-section.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Hero.jsx (HERO_IMAGES)",
+        "issue": "Hero slider on homepage uses 3 images.unsplash.com URLs (photo-1745864049984, photo-1736593319421, photo-1572716220309) instead of viknaroff.ua/wp-content/uploads images. User explicitly demanded the hero show a real Gealan window cross-section. data/products.js / mock.js were already updated to viknaroff.ua, but Hero.jsx was missed.",
+        "selector": "/app/frontend/src/components/Hero.jsx lines 9, 15, 21",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_leads_api.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Replace the 3 Unsplash URLs in /app/frontend/src/components/Hero.jsx HERO_IMAGES with images from https://viknaroff.ua/wp-content/uploads/ (e.g. 1.-Gealan-9000-1.webp for the cross-section, plus a real interior/exterior viknaroff photo). The lib/img.js helper that strips unsplash params can stay - just feed it real URLs.",
+    "Optional: also drop Unsplash logic from /app/frontend/src/lib/img.js once Hero is migrated."
+  ],
+  "critical_code_review_comments": [
+    "server.py logger is configured AFTER it is referenced inside create_lead via logging.getLogger; works because logging.getLogger returns lazily, but the basicConfig call should be moved above endpoint definitions for clarity.",
+    "products.js holds 41 inline product objects (~810 lines) - acceptable for now but consider splitting per category if it grows.",
+    "Hero.jsx still has dead Unsplash references - violates the explicit content rule from the PRD."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_leads_api.py (new pytest suite)"
+  ],
+  "success_rate": {
+    "backend": "100%",
+    "frontend": "85%"
+  },
+  "seed_data_creation": "Two TEST_-prefixed leads inserted via pytest (TEST_Іван, TEST_Minimal) - safe to leave or purge.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend lead CRUD fully verified via /app/backend/tests/test_leads_api.py (use pytest --junitxml). Catalog pages return correct counts: windows 19/19, doors 11/11 with all expected door names, sliding 2, additional 10. Brand filter on /catalog/windows narrows 19->6 for Gealan. Mobile (390px) shows 'Фільтри' button. Product detail /product/gealan-s9000 renders. Only outstanding bug: Hero.jsx Unsplash images. After main agent updates Hero.jsx, just re-load homepage and assert no images.unsplash.com src tags remain.",
+  "rca of the issue": "Predecessor migrated products.js, mock.js and FAQAndPartners.jsx to viknaroff.ua images but never touched Hero.jsx. Grep for 'unsplash' in /app/frontend/src/ still returns 3 hits in Hero.jsx (lines 9, 15, 21) plus the helper in lib/img.js. Reproduction: open https://photos-19.preview.emergentagent.com/, inspect <img> tags - 6 of 8 sources are images.unsplash.com (3 unique photos, each rendered twice by SmartImage blur+full). Mitigation: replace HERO_IMAGES src values with viknaroff.ua/wp-content/uploads URLs (e.g. 2024/08/1.-Gealan-9000-1.webp)."
+}
