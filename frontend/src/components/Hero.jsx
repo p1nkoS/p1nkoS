@@ -6,19 +6,19 @@ import SmartImage from "./SmartImage";
 
 const HERO_IMAGES = [
   {
-    src: "https://images.unsplash.com/photo-1745864049984-08ad9bf9d5d2",
+    src: "https://viknaroff.ua/wp-content/uploads/2024/08/1.-Gealan-9000-1.webp",
     label: "Gealan S 9000",
     sub: "Преміум профіль",
     detail: "82,5 мм · 6 камер · до 42 дБ",
   },
   {
-    src: "https://images.unsplash.com/photo-1736593319421-250e17bb2f11",
+    src: "https://viknaroff.ua/wp-content/uploads/2024/08/Decco-82-3-scaled-e1771938971151.webp",
     label: "Decco 82",
     sub: "Польська якість",
     detail: "81 мм · 6 камер · до 42 дБ",
   },
   {
-    src: "https://images.unsplash.com/photo-1572716220309-b3afbd2aea66",
+    src: "https://viknaroff.ua/wp-content/uploads/2024/10/Alyuminiyevi-vikna.webp",
     label: "Aluprof MB-86",
     sub: "Алюмінієві системи",
     detail: "77 мм · терморозрив · до 43 дБ",
