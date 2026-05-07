@@ -31,9 +31,18 @@ export default function CategoryPage() {
   const [soundMin, setSoundMin] = useState(0);
   const [sortBy, setSortBy] = useState("recommended");
 
+  // Reset filters when category slug or query params change
   useEffect(() => {
+    const b = searchParams.get("brand");
+    const c = searchParams.get("country");
+    setBrands(b ? [b] : []);
+    setCountries(c ? [c] : []);
+    setChambers([]);
+    setSoundMin(0);
+    setSortBy("recommended");
     window.scrollTo(0, 0);
-  }, [slug]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, searchParams.toString()]);
 
   const allBrands = useMemo(() => [...new Set(all.map((p) => p.brand))].sort(), [all]);
   const allCountries = useMemo(() => [...new Set(all.map((p) => p.country))].sort(), [all]);
