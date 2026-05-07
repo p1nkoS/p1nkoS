@@ -1,0 +1,11 @@
+.App { min-height: 100vh; }
+.hero-gradient {
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.7) 100%);
+}
+.dark-overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 100%);
+}
+.tab-active {
+  background: #1a1a1a !important;
+  color: white !important;
+}
