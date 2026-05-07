@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { ArrowRight, ShieldCheck, Award, Star, Phone, Sparkles } from "lucide-react";
+import SmartImage from "./SmartImage";
 
 const HERO_IMAGES = [
   {
@@ -140,15 +141,20 @@ export default function Hero({ onOpenForm }) {
             {/* Main image */}
             <div className="col-span-12 sm:col-span-8 row-span-6 relative overflow-hidden rounded-[24px] sm:rounded-[28px] group">
               {HERO_IMAGES.map((img, i) => (
-                <img
+                <div
                   key={i}
-                  src={img.src}
-                  alt={img.label}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
                     i === active ? "opacity-100" : "opacity-0"
                   }`}
-                />
+                >
+                  <SmartImage
+                    src={img.src}
+                    alt={img.label}
+                    eager={i === 0}
+                    width={1400}
+                    className="w-full h-full"
+                  />
+                </div>
               ))}
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
 
@@ -179,14 +185,14 @@ export default function Hero({ onOpenForm }) {
 
             {/* Top right card */}
             <div className="hidden sm:block col-span-4 row-span-3 relative overflow-hidden rounded-[24px] group">
-              <img
+              <SmartImage
                 src="https://images.unsplash.com/photo-1626556504142-f9ec02f05d67"
                 alt="Doors"
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                width={600}
+                className="absolute inset-0 w-full h-full"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <Link to="/catalog/doors" className="absolute bottom-3 left-3 right-3 text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-[2]" />
+              <Link to="/catalog/doors" className="absolute bottom-3 left-3 right-3 text-white z-[3]">
                 <div className="text-[10px] uppercase tracking-[0.2em] opacity-80">Категорія</div>
                 <div className="font-display font-bold text-base flex items-center gap-1 group-hover:gap-2 transition-all">
                   Двері <ArrowRight size={14} />
@@ -196,14 +202,14 @@ export default function Hero({ onOpenForm }) {
 
             {/* Bottom right card */}
             <div className="hidden sm:block col-span-4 row-span-3 relative overflow-hidden rounded-[24px] group">
-              <img
+              <SmartImage
                 src="https://images.unsplash.com/photo-1700308232171-aa0d87ee1a88"
                 alt="Sliding"
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                width={600}
+                className="absolute inset-0 w-full h-full"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <Link to="/catalog/sliding" className="absolute bottom-3 left-3 right-3 text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-[2]" />
+              <Link to="/catalog/sliding" className="absolute bottom-3 left-3 right-3 text-white z-[3]">
                 <div className="text-[10px] uppercase tracking-[0.2em] opacity-80">Категорія</div>
                 <div className="font-display font-bold text-base flex items-center gap-1 group-hover:gap-2 transition-all">
                   Розсувні <ArrowRight size={14} />

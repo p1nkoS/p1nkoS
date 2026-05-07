@@ -32,8 +32,8 @@ export default function Header({ onOpenForm }) {
       >
         <div className="max-w-[1400px] mx-auto px-6 py-2.5 flex items-center justify-between text-white text-[12px]">
           <div className="flex items-center gap-5">
-            <a href={`tel:${SITE_CONFIG.hotline.replace(/\s/g, "")}`} className="flex items-center gap-1.5 hover:text-[#FF5722] transition-colors">
-              <Phone size={12} /> {SITE_CONFIG.hotline}
+            <a href={`tel:${SITE_CONFIG.primaryPhone}`} className="flex items-center gap-1.5 hover:text-[#FF5722] transition-colors">
+              <Phone size={12} /> {SITE_CONFIG.phones[0]}
             </a>
             <a href={`mailto:${SITE_CONFIG.email}`} className="flex items-center gap-1.5 hover:text-[#FF5722] transition-colors">
               <Mail size={12} /> {SITE_CONFIG.email}

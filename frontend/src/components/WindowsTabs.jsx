@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { WINDOW_TABS } from "../data/mock";
+import SmartImage from "./SmartImage";
 
 export default function WindowsTabs() {
   const tabKeys = Object.keys(WINDOW_TABS);
@@ -39,11 +40,11 @@ export default function WindowsTabs() {
             <Link
               key={`${active}-${i}`}
               to="/catalog/windows"
-              className="group relative overflow-hidden rounded-2xl aspect-[4/5] img-zoom card-hover"
+              className="group relative overflow-hidden rounded-2xl aspect-[4/5] card-hover reveal"
             >
-              <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="relative z-10 h-full p-5 md:p-6 flex flex-col justify-end">
+              <SmartImage src={item.image} alt={item.name} width={500} className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-[2]" />
+              <div className="relative z-[3] h-full p-5 md:p-6 flex flex-col justify-end">
                 <h3 className="text-white font-semibold text-base md:text-lg mb-2 leading-tight">{item.name}</h3>
                 <span className="inline-flex items-center gap-1.5 text-white/80 text-xs group-hover:text-[#FF5722] group-hover:gap-2 transition-all">
                   Детальніше <ArrowRight size={13} />

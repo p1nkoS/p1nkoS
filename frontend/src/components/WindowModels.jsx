@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Volume2, Layers, Box, Globe } from "lucide-react";
 import { getProductsByCategory } from "../data/products";
+import SmartImage from "./SmartImage";
 
 export default function WindowModels() {
   const models = getProductsByCategory("windows");
@@ -21,10 +22,10 @@ export default function WindowModels() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {models.map((m) => (
-            <Link key={m.slug} to={`/product/${m.slug}`} className="bg-white rounded-3xl overflow-hidden card-hover relative group">
+            <Link key={m.slug} to={`/product/${m.slug}`} className="bg-white rounded-3xl overflow-hidden card-hover relative group reveal">
               <span className="ribbon-tag">{m.badge}</span>
-              <div className="img-zoom h-56 overflow-hidden">
-                <img src={m.image} alt={m.name} className="w-full h-full object-cover" />
+              <div className="h-56 overflow-hidden">
+                <SmartImage src={m.image} alt={m.name} width={600} className="w-full h-full transition-transform duration-700 group-hover:scale-105" />
               </div>
               <div className="p-6">
                 <h3 className="font-display text-2xl font-bold mb-4 group-hover:text-[#FF5722] transition-colors">{m.name}</h3>

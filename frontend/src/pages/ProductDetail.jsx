@@ -7,6 +7,7 @@ import { Button } from "../components/ui/button";
 import { ArrowRight, ArrowLeft, ChevronRight, Volume2, Layers, Box, Globe, ShieldCheck, CheckCircle2, Phone, Send, Mail, MessageCircle, Sparkles, Award, Wrench } from "lucide-react";
 import { getProductBySlug, getProductsByCategory, CATEGORIES } from "../data/products";
 import { SITE_CONFIG } from "../data/mock";
+import SmartImage from "../components/SmartImage";
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -61,7 +62,7 @@ export default function ProductDetail() {
           <div>
             <div className="relative bg-white rounded-3xl overflow-hidden aspect-[4/3] mb-4">
               {product.badge && <span className="ribbon-tag">{product.badge}</span>}
-              <img src={product.images[activeImg]} alt={product.name} className="w-full h-full object-cover" />
+              <SmartImage src={product.images[activeImg]} alt={product.name} eager width={1200} className="w-full h-full" />
             </div>
             {product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-3">
@@ -73,7 +74,7 @@ export default function ProductDetail() {
                       i === activeImg ? "border-[#FF5722]" : "border-transparent opacity-60 hover:opacity-100"
                     }`}
                   >
-                    <img src={img} alt={`thumb-${i}`} className="w-full h-full object-cover" />
+                    <SmartImage src={img} alt={`thumb-${i}`} width={300} className="w-full h-full" />
                   </button>
                 ))}
               </div>
@@ -222,10 +223,10 @@ export default function ProductDetail() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {related.map((p) => (
-                <Link key={p.slug} to={`/product/${p.slug}`} className="bg-white rounded-3xl overflow-hidden card-hover relative group">
+                <Link key={p.slug} to={`/product/${p.slug}`} className="bg-white rounded-3xl overflow-hidden card-hover relative group reveal">
                   {p.badge && <span className="ribbon-tag">{p.badge}</span>}
-                  <div className="img-zoom h-52 overflow-hidden">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  <div className="h-52 overflow-hidden">
+                    <SmartImage src={p.image} alt={p.name} width={600} className="w-full h-full transition-transform duration-700 group-hover:scale-110" />
                   </div>
                   <div className="p-6">
                     <h3 className="font-display text-xl font-bold mb-2 group-hover:text-[#FF5722] transition-colors">{p.name}</h3>

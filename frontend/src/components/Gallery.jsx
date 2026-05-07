@@ -1,4 +1,5 @@
 import { GALLERY } from "../data/mock";
+import SmartImage from "./SmartImage";
 
 export default function Gallery() {
   return (
@@ -27,10 +28,10 @@ export default function Gallery() {
               "col-span-2 md:col-span-1 row-span-2 aspect-[3/5]",
             ];
             return (
-              <div key={i} className={`relative overflow-hidden rounded-2xl img-zoom group ${layouts[i % layouts.length]}`}>
-                <img src={src} alt={`gallery ${i}`} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+              <div key={i} className={`relative overflow-hidden rounded-2xl group reveal ${layouts[i % layouts.length]}`}>
+                <SmartImage src={src} alt={`gallery ${i}`} width={800} className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-[2]" />
+                <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 z-[3]">
                   <span className="text-xs uppercase tracking-wider text-[#FF5722]">Проєкт #{(i + 1).toString().padStart(2, "0")}</span>
                   <div className="font-semibold mt-1">Монтаж Viknar'off</div>
                 </div>

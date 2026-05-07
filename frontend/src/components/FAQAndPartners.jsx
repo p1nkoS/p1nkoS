@@ -1,6 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { FAQ_ITEMS, PARTNERS } from "../data/mock";
 import { CheckCircle2 } from "lucide-react";
+import SmartImage from "./SmartImage";
 
 export default function FAQAndPartners() {
   return (
@@ -10,8 +11,8 @@ export default function FAQAndPartners() {
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="relative">
-              <div className="img-zoom rounded-3xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1695603414636-987030c7a890" alt="Viknar'off виробництво" className="w-full h-[480px] md:h-[560px] object-cover" />
+              <div className="rounded-3xl overflow-hidden h-[480px] md:h-[560px]">
+                <SmartImage src="https://images.unsplash.com/photo-1695603414636-987030c7a890" alt="Viknar'off виробництво" width={1000} className="w-full h-full transition-transform duration-1000 hover:scale-105" />
               </div>
               <div className="absolute -bottom-6 -right-4 md:-right-8 bg-[#FF5722] text-white p-6 md:p-8 rounded-3xl shadow-2xl max-w-xs">
                 <div className="font-display text-5xl md:text-6xl font-bold leading-none">19<span className="text-white/70 text-3xl">+</span></div>

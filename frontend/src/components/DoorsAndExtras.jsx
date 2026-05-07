@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { getProductsByCategory } from "../data/products";
+import SmartImage from "./SmartImage";
 
 export default function DoorsAndExtras() {
   const doors = getProductsByCategory("doors");
@@ -29,10 +30,10 @@ export default function DoorsAndExtras() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
             {doors.slice(0, 8).map((d) => (
-              <Link key={d.slug} to={`/product/${d.slug}`} className="group relative overflow-hidden rounded-2xl aspect-[3/4] img-zoom card-hover">
-                <img src={d.image} alt={d.name} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <div className="relative z-10 h-full p-5 flex flex-col justify-end">
+              <Link key={d.slug} to={`/product/${d.slug}`} className="group relative overflow-hidden rounded-2xl aspect-[3/4] card-hover reveal">
+                <SmartImage src={d.image} alt={d.name} width={500} className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent z-[2]" />
+                <div className="relative z-[3] h-full p-5 flex flex-col justify-end">
                   <h3 className="text-white font-semibold text-base md:text-lg leading-tight">{d.name}</h3>
                   <span className="mt-2 inline-flex items-center gap-1.5 text-white/70 group-hover:text-[#FF5722] text-xs transition-colors">
                     від {d.price.toLocaleString()} ₴ <ArrowRight size={12} />
@@ -60,10 +61,10 @@ export default function DoorsAndExtras() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {additional.map((p, i) => (
-              <Link key={p.slug} to={`/product/${p.slug}`} className={`group relative overflow-hidden rounded-3xl img-zoom card-hover ${i === 0 ? "md:col-span-2 md:row-span-2 min-h-[400px] md:min-h-[480px]" : "min-h-[260px]"}`}>
-                <img src={p.image} alt={p.name} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                <div className="relative z-10 h-full p-7 flex flex-col justify-end min-h-[260px]">
+              <Link key={p.slug} to={`/product/${p.slug}`} className={`group relative overflow-hidden rounded-3xl card-hover reveal ${i === 0 ? "md:col-span-2 md:row-span-2 min-h-[400px] md:min-h-[480px]" : "min-h-[260px]"}`}>
+                <SmartImage src={p.image} alt={p.name} width={i === 0 ? 1200 : 600} className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-[2]" />
+                <div className="relative z-[3] h-full p-7 flex flex-col justify-end min-h-[260px]">
                   <h3 className="text-white font-display text-xl md:text-2xl font-bold mb-3 leading-tight">{p.name}</h3>
                   <span className="inline-flex items-center gap-2 text-white/80 group-hover:text-[#FF5722] text-sm font-medium transition-colors">
                     від {p.price.toLocaleString()} ₴ <ArrowRight size={14} />

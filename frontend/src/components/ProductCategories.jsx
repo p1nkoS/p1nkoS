@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { CATEGORIES, getProductsByCategory } from "../data/products";
+import SmartImage from "./SmartImage";
 
 const CARDS = ["windows", "doors", "sliding", "additional"];
 
@@ -28,11 +29,16 @@ export default function ProductCategories() {
               <Link
                 key={id}
                 to={`/catalog/${id}`}
-                className={`group relative overflow-hidden rounded-3xl card-hover img-zoom ${i === 0 ? "md:row-span-2 md:min-h-[640px]" : "min-h-[300px]"}`}
+                className={`group relative overflow-hidden rounded-3xl card-hover ${i === 0 ? "md:row-span-2 md:min-h-[640px]" : "min-h-[300px]"}`}
               >
-                <img src={cat.image} alt={cat.title} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
-                <div className="relative z-10 p-8 md:p-10 h-full flex flex-col justify-between min-h-[300px]">
+                <SmartImage
+                  src={cat.image}
+                  alt={cat.title}
+                  width={i === 0 ? 1200 : 800}
+                  className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent z-[2]" />
+                <div className="relative z-[3] p-8 md:p-10 h-full flex flex-col justify-between min-h-[300px]">
                   <div className="flex justify-between items-start">
                     <span className="text-white/70 text-sm font-medium">0{i + 1}</span>
                     <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs">

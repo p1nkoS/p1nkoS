@@ -9,6 +9,7 @@ import { Button } from "../components/ui/button";
 import { CATEGORIES, getProductsByCategory } from "../data/products";
 import { ArrowRight, ChevronRight, Filter, X, Volume2, Layers, Box, Globe, Tag, SlidersHorizontal, Phone } from "lucide-react";
 import { Phone as PhoneIcon } from "lucide-react";
+import SmartImage from "../components/SmartImage";
 
 export default function CategoryPage() {
   const { slug } = useParams();
@@ -186,10 +187,10 @@ export default function CategoryPage() {
       {/* Header banner */}
       <section className="relative pt-32 pb-12 lg:pt-40 lg:pb-16 overflow-hidden">
         <div className="absolute inset-0">
-          <img src={category.image} alt={category.title} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a1a]/90 via-[#1a1a1a]/75 to-[#1a1a1a]/40" />
+          <SmartImage src={category.image} alt={category.title} eager width={1800} className="w-full h-full" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a1a]/90 via-[#1a1a1a]/75 to-[#1a1a1a]/40 z-[2]" />
         </div>
-        <div className="relative max-w-[1400px] mx-auto px-6 text-white">
+        <div className="relative z-[3] max-w-[1400px] mx-auto px-6 text-white">
           <nav className="flex items-center gap-2 text-xs text-white/70 mb-5">
             <Link to="/" className="hover:text-white">Головна</Link>
             <ChevronRight size={12} />
@@ -246,11 +247,11 @@ export default function CategoryPage() {
                   <Link
                     key={p.slug}
                     to={`/product/${p.slug}`}
-                    className="bg-white rounded-3xl overflow-hidden card-hover relative group"
+                    className="bg-white rounded-3xl overflow-hidden card-hover relative group reveal"
                   >
                     {p.badge && <span className="ribbon-tag">{p.badge}</span>}
-                    <div className="img-zoom h-56 overflow-hidden">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                    <div className="h-56 overflow-hidden">
+                      <SmartImage src={p.image} alt={p.name} width={600} className="w-full h-full transition-transform duration-700 group-hover:scale-110" />
                     </div>
                     <div className="p-6">
                       <h3 className="font-display text-xl font-bold mb-3 group-hover:text-[#FF5722] transition-colors">{p.name}</h3>
