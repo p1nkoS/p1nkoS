@@ -142,7 +142,7 @@ export default function Hero({ onOpenForm }) {
         <div className="lg:col-span-6 relative">
           <div className="relative grid grid-cols-12 grid-rows-6 gap-3 h-[420px] sm:h-[520px] lg:h-[600px] xl:h-[640px]">
             {/* Main image */}
-            <div className="col-span-12 sm:col-span-8 row-span-6 relative overflow-hidden rounded-[24px] sm:rounded-[28px] group">
+            <div className="col-span-12 sm:col-span-8 row-span-6 relative overflow-hidden rounded-[24px] sm:rounded-[28px] group bg-gradient-to-br from-[#ece4d8] via-[#f5f1ec] to-[#e2d8c7]">
               {HERO_IMAGES.map((img, i) => (
                 <div
                   key={i}
@@ -155,11 +155,12 @@ export default function Hero({ onOpenForm }) {
                     alt={img.label}
                     eager={i === 0}
                     width={1400}
-                    className="w-full h-full"
+                    fit="contain"
+                    className="w-full h-full p-4 sm:p-6"
                   />
                 </div>
               ))}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent pointer-events-none" />
 
               {/* Label badge */}
               <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">

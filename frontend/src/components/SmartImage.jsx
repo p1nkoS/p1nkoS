@@ -15,6 +15,7 @@ export default function SmartImage({
   width = 1200,
   quality = 75,
   eager = false,
+  fit = "cover",
   ...rest
 }) {
   const [loaded, setLoaded] = useState(false);
@@ -53,7 +54,7 @@ export default function SmartImage({
           src={blur}
           alt=""
           aria-hidden="true"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 scale-110 ${
+          className={`absolute inset-0 w-full h-full ${fit === "contain" ? "object-contain" : "object-cover"} transition-opacity duration-500 scale-110 ${
             loaded ? "opacity-0" : "opacity-100"
           }`}
           style={{ filter: "blur(20px)" }}
@@ -66,7 +67,7 @@ export default function SmartImage({
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           onLoad={() => setLoaded(true)}
-          className={`relative z-[1] w-full h-full object-cover transition-opacity duration-700 ${
+          className={`relative z-[1] w-full h-full ${fit === "contain" ? "object-contain" : "object-cover"} transition-opacity duration-700 ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
         />
