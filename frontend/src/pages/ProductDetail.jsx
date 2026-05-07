@@ -117,18 +117,18 @@ export default function ProductDetail() {
                 <span className="w-10 h-10 rounded-xl bg-[#0088cc]/10 group-hover:bg-[#0088cc] flex items-center justify-center transition-colors">
                   <MessageCircle size={18} className="text-[#0088cc] group-hover:text-white" />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <div className="text-[10px] uppercase tracking-wider opacity-60">Telegram</div>
-                  <div className="text-sm font-semibold">@viknaroffvin</div>
+                  <div className="text-sm font-semibold truncate">+380 68 723-97-22</div>
                 </div>
               </a>
-              <a href={SITE_CONFIG.mailto} className="flex items-center gap-3 p-4 rounded-2xl bg-white hover:bg-[#1a1a1a] hover:text-white transition-colors border border-[#f0e9e0] group">
-                <span className="w-10 h-10 rounded-xl bg-[#FF5722]/10 group-hover:bg-[#FF5722] flex items-center justify-center transition-colors">
-                  <Mail size={18} className="text-[#FF5722] group-hover:text-white" />
+              <a href={SITE_CONFIG.viber} className="flex items-center gap-3 p-4 rounded-2xl bg-white hover:bg-[#1a1a1a] hover:text-white transition-colors border border-[#f0e9e0] group">
+                <span className="w-10 h-10 rounded-xl bg-[#665CAC]/10 group-hover:bg-[#665CAC] flex items-center justify-center transition-colors">
+                  <Phone size={18} className="text-[#665CAC] group-hover:text-white" />
                 </span>
-                <div>
-                  <div className="text-[10px] uppercase tracking-wider opacity-60">Email</div>
-                  <div className="text-sm font-semibold">{SITE_CONFIG.email}</div>
+                <div className="min-w-0">
+                  <div className="text-[10px] uppercase tracking-wider opacity-60">Viber</div>
+                  <div className="text-sm font-semibold truncate">+380 68 723-97-22</div>
                 </div>
               </a>
             </div>
@@ -242,7 +242,7 @@ export default function ProductDetail() {
       )}
 
       <Footer />
-      <FormModal open={formOpen} onOpenChange={setFormOpen} />
+      <FormModal open={formOpen} onOpenChange={setFormOpen} productSlug={product.slug} productName={product.name} />
 
       <a
         href="tel:+380687239722"

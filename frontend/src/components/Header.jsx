@@ -38,8 +38,14 @@ export default function Header({ onOpenForm }) {
             <a href={`mailto:${SITE_CONFIG.email}`} className="flex items-center gap-1.5 hover:text-[#FF5722] transition-colors">
               <Mail size={12} /> {SITE_CONFIG.email}
             </a>
-            <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#FF5722] transition-colors">
+            <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-[#FF5722] transition-colors" aria-label="Telegram">
               <MessageCircle size={12} /> Telegram
+            </a>
+            <a href={SITE_CONFIG.viber} className="hidden lg:flex items-center gap-1.5 hover:text-[#FF5722] transition-colors" aria-label="Viber">
+              Viber
+            </a>
+            <a href={SITE_CONFIG.instagram} target="_blank" rel="noreferrer" className="hidden lg:flex items-center gap-1.5 hover:text-[#FF5722] transition-colors" aria-label="Instagram">
+              Instagram
             </a>
             <span className="hidden xl:flex items-center gap-1.5 opacity-80">
               <Clock size={12} /> {SITE_CONFIG.workingHours}

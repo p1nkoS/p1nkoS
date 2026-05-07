@@ -101,3 +101,108 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Viknar'off Vinnytsia website backend API for lead management"
+
+backend:
+  - task: "Health check endpoint (GET /api/)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Health check endpoint returns correct response: {'message': 'Viknar'off Vinnytsia API', 'status': 'ok'} with 200 status code"
+
+  - task: "Create lead endpoint (POST /api/leads)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Lead creation working correctly. Tested with full payload (name, phone, city, service, message, source) and product info payload (product_slug, product_name). Returns 201 with proper response including id, name, phone, status, created_at, message. Validation working - returns 422 for invalid data (empty name/phone)."
+
+  - task: "List leads endpoint (GET /api/leads)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ List leads endpoint working correctly. Returns list of leads sorted by created_at desc. Pagination working (limit parameter). Status filtering working (status=new). Default limit is 50."
+
+  - task: "Get single lead endpoint (GET /api/leads/{lead_id})"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Get single lead by ID working correctly. Returns 200 with full lead data for valid ID. Returns 404 for non-existent lead ID."
+
+  - task: "Update lead status endpoint (PATCH /api/leads/{lead_id}/status)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Update lead status working correctly. Successfully updates status to 'contacted' and persists changes. Returns 400 for invalid status values. Status validation working for allowed values: new, contacted, converted, rejected."
+
+  - task: "Status check endpoints (POST/GET /api/status)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Status check endpoints working correctly. POST creates status check with id, client_name, timestamp. GET returns list of all status checks."
+
+frontend:
+  - task: "Frontend testing"
+    implemented: false
+    working: "NA"
+    file: ""
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Frontend testing not performed as per testing agent instructions (backend only)"
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "All backend API endpoints tested and verified"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "testing"
+    message: "Backend API testing completed successfully. All 14 test cases passed. Tested: health check, lead creation with validation, lead listing with pagination and filtering, single lead retrieval with 404 handling, lead status updates with validation, and status check endpoints. Backend is fully functional and ready for production use."

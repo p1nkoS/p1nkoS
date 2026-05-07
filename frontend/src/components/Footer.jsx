@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Instagram, MessageCircle } from "lucide-react";
 import { SITE_CONFIG, NAV_MENU } from "../data/mock";
 
 export default function Footer() {
@@ -13,15 +13,22 @@ export default function Footer() {
             <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-sm">
               Салон магазин у Вінниці. Металопластикові вікна, двері, балкони та розсувні системи від виробника. Європейська якість за доступною ціною.
             </p>
-            <div className="flex gap-3">
-              <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#0088cc] flex items-center justify-center transition-colors" aria-label="Telegram">
+            <div className="flex flex-wrap gap-3">
+              <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#0088cc] flex items-center justify-center transition-colors" aria-label="Telegram" title="Telegram">
                 <MessageCircle size={16} />
               </a>
-              {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#FF5722] flex items-center justify-center transition-colors">
-                  <Icon size={16} />
-                </a>
-              ))}
+              <a href={SITE_CONFIG.viber} className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#665CAC] flex items-center justify-center transition-colors" aria-label="Viber" title="Viber">
+                <Phone size={16} />
+              </a>
+              <a href={SITE_CONFIG.instagram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-br hover:from-[#E1306C] hover:to-[#F77737] flex items-center justify-center transition-colors" aria-label="Instagram" title="Instagram">
+                <Instagram size={16} />
+              </a>
+              <a href={SITE_CONFIG.facebook} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#1877F2] flex items-center justify-center transition-colors" aria-label="Facebook" title="Facebook">
+                <Facebook size={16} />
+              </a>
+              <a href={SITE_CONFIG.mailto} className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#FF5722] flex items-center justify-center transition-colors" aria-label="Email" title="Email">
+                <Mail size={16} />
+              </a>
             </div>
           </div>
 

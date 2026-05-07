@@ -1,23 +1,46 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send, Globe, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, Globe, MessageCircle, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { toast } from "sonner";
 import { SITE_CONFIG } from "../data/mock";
+import { createLead } from "../lib/api";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", phone: "", service: "", message: "" });
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.phone) {
+    if (!form.name.trim() || !form.phone.trim()) {
       toast.error("Вкажіть ім'я та телефон");
       return;
     }
-    toast.success("Заявку відправлено!", { description: "Ми зв'яжемося з вами протягом 15 хвилин" });
-    setForm({ name: "", phone: "", service: "", message: "" });
+    if (form.phone.replace(/\D/g, "").length < 5) {
+      toast.error("Введіть коректний телефон");
+      return;
+    }
+    setLoading(true);
+    try {
+      await createLead({
+        name: form.name.trim(),
+        phone: form.phone.trim(),
+        service: form.service || null,
+        message: form.message.trim() || null,
+        source: "contact-form",
+      });
+      toast.success("Заявку відправлено!", {
+        description: "Ми зв'яжемося з вами протягом 15 хвилин",
+      });
+      setForm({ name: "", phone: "", service: "", message: "" });
+    } catch (err) {
+      const msg = err?.response?.data?.detail || err?.message || "Помилка відправки";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,12 +95,18 @@ export default function Contact() {
               <Globe size={28} className="mb-3" />
               <h3 className="font-display text-xl font-bold mb-2">12 країн світу</h3>
               <p className="text-white/90 text-sm mb-5">Наші представництва: Україна, Норвегія, Італія, Нідерланди, Німеччина, Франція, Іспанія, Литва</p>
-              <div className="flex gap-2">
-                <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
+              <div className="grid grid-cols-2 gap-2">
+                <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
                   <MessageCircle size={14} /> Telegram
                 </a>
-                <a href={SITE_CONFIG.mailto} className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
-                  <Mail size={14} /> Email
+                <a href={SITE_CONFIG.viber} className="inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
+                  <Phone size={14} /> Viber
+                </a>
+                <a href={SITE_CONFIG.instagram} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
+                  Instagram
+                </a>
+                <a href={SITE_CONFIG.facebook} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
+                  Facebook
                 </a>
               </div>
             </div>
@@ -117,8 +146,8 @@ export default function Contact() {
                 <label className="block text-xs font-medium mb-2 text-[#5a5a5a]">Повідомлення</label>
                 <Textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Додаткова інформація..." rows={4} className="bg-white rounded-xl border-[#e6dfd5] focus-visible:ring-[#FF5722]" />
               </div>
-              <Button type="submit" className="btn-shimmer w-full bg-[#FF5722] hover:bg-[#e64a17] rounded-full h-14 font-semibold text-[15px]">
-                <Send size={16} className="mr-2" /> Надіслати заявку
+              <Button type="submit" disabled={loading} className="btn-shimmer w-full bg-[#FF5722] hover:bg-[#e64a17] rounded-full h-14 font-semibold text-[15px] disabled:opacity-70">
+                {loading ? (<><Loader2 size={16} className="mr-2 animate-spin" /> Відправляємо...</>) : (<><Send size={16} className="mr-2" /> Надіслати заявку</>)}
               </Button>
             </form>
           </div>

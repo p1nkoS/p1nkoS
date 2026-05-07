@@ -6,11 +6,17 @@ export const SITE_CONFIG = {
   city: "Вінниця",
   address: "м. Вінниця, вул. Замостянська 37",
   phones: ["(068) 723-97-22", "(073) 723-23-22"],
-  email: "office@viknaroff.com.ua",
+  primaryPhone: "+380687239722",
+  primaryPhoneRaw: "380687239722",
+  email: "viknaroffvin@gmail.com",
+  domain: "viknaroffvin.com",
   workingHours: "Пн-Пт: 9:00 - 18:00 | Сб: 9:00 - 15:00",
   hotline: "0 800 50 53 52",
-  telegram: "https://t.me/viknaroffvin",
-  mailto: "mailto:office@viknaroff.com.ua?subject=Заявка з сайту&body=Доброго дня! Хочу замовити...",
+  telegram: "https://t.me/+380687239722",
+  viber: "viber://chat?number=%2B380687239722",
+  instagram: "https://www.instagram.com/viknaroffvin",
+  facebook: "https://www.facebook.com/share/1AxmhrVBoW/?mibextid=wwXIfr",
+  mailto: "mailto:viknaroffvin@gmail.com?subject=Заявка з сайту&body=Доброго дня! Хочу замовити...",
 };
 
 export const NAV_MENU = [
