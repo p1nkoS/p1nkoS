@@ -6,19 +6,22 @@ import SmartImage from "./SmartImage";
 
 const HERO_IMAGES = [
   {
-    src: "https://images.unsplash.com/photo-1772563139470-9232b4e435c2",
+    src: "https://images.unsplash.com/photo-1745864049984-08ad9bf9d5d2",
     label: "Gealan S 9000",
     sub: "Преміум профіль",
+    detail: "82,5 мм · 6 камер · до 42 дБ",
   },
   {
-    src: "https://images.unsplash.com/photo-1638885930125-85350348d266",
+    src: "https://images.unsplash.com/photo-1736593319421-250e17bb2f11",
     label: "Decco 82",
     sub: "Польська якість",
+    detail: "81 мм · 6 камер · до 42 дБ",
   },
   {
-    src: "https://images.unsplash.com/photo-1700308232171-aa0d87ee1a88",
+    src: "https://images.unsplash.com/photo-1572716220309-b3afbd2aea66",
     label: "Aluprof MB-86",
     sub: "Алюмінієві системи",
+    detail: "77 мм · терморозрив · до 43 дБ",
   },
 ];
 
@@ -167,6 +170,9 @@ export default function Hero({ onOpenForm }) {
                   <div className="font-display font-bold text-lg sm:text-2xl mt-1">
                     {HERO_IMAGES[active].label}
                   </div>
+                  <div className="text-white/70 text-[11px] sm:text-xs mt-1">
+                    {HERO_IMAGES[active].detail}
+                  </div>
                 </div>
                 <div className="flex gap-1.5 shrink-0">
                   {HERO_IMAGES.map((_, i) => (
@@ -186,16 +192,21 @@ export default function Hero({ onOpenForm }) {
             {/* Top right card */}
             <div className="hidden sm:block col-span-4 row-span-3 relative overflow-hidden rounded-[24px] group">
               <SmartImage
-                src="https://images.unsplash.com/photo-1626556504142-f9ec02f05d67"
-                alt="Doors"
+                src="https://images.unsplash.com/photo-1618599527032-31124e95c89f"
+                alt="Двері Viknar'off"
                 width={600}
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-[2]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-[2]" />
+              <span className="absolute top-3 left-3 z-[3] inline-block px-2.5 py-1 rounded-full bg-white/95 text-[#FF5722] text-[10px] font-bold uppercase tracking-wider">
+                18 моделей
+              </span>
               <Link to="/catalog/doors" className="absolute bottom-3 left-3 right-3 text-white z-[3]">
-                <div className="text-[10px] uppercase tracking-[0.2em] opacity-80">Категорія</div>
-                <div className="font-display font-bold text-base flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Двері <ArrowRight size={14} />
+                <div className="text-[10px] uppercase tracking-[0.18em] text-[#FF5722] font-semibold">Категорія</div>
+                <div className="font-display font-bold text-base mt-0.5">Двері</div>
+                <div className="text-white/75 text-[10px] mt-0.5 leading-tight">Вхідні · балконні · офісні</div>
+                <div className="mt-1.5 inline-flex items-center gap-1 text-white text-[11px] font-medium group-hover:gap-1.5 transition-all">
+                  Перейти <ArrowRight size={12} />
                 </div>
               </Link>
             </div>
@@ -203,16 +214,21 @@ export default function Hero({ onOpenForm }) {
             {/* Bottom right card */}
             <div className="hidden sm:block col-span-4 row-span-3 relative overflow-hidden rounded-[24px] group">
               <SmartImage
-                src="https://images.unsplash.com/photo-1700308232171-aa0d87ee1a88"
-                alt="Sliding"
+                src="https://images.unsplash.com/photo-1758998256408-ab2c9fbec19b"
+                alt="Розсувні системи"
                 width={600}
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-[2]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-[2]" />
+              <span className="absolute top-3 left-3 z-[3] inline-block px-2.5 py-1 rounded-full bg-white/95 text-[#FF5722] text-[10px] font-bold uppercase tracking-wider">
+                Преміум
+              </span>
               <Link to="/catalog/sliding" className="absolute bottom-3 left-3 right-3 text-white z-[3]">
-                <div className="text-[10px] uppercase tracking-[0.2em] opacity-80">Категорія</div>
-                <div className="font-display font-bold text-base flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Розсувні <ArrowRight size={14} />
+                <div className="text-[10px] uppercase tracking-[0.18em] text-[#FF5722] font-semibold">Категорія</div>
+                <div className="font-display font-bold text-base mt-0.5">Розсувні</div>
+                <div className="text-white/75 text-[10px] mt-0.5 leading-tight">Aluprof · HS-Portal · тераса</div>
+                <div className="mt-1.5 inline-flex items-center gap-1 text-white text-[11px] font-medium group-hover:gap-1.5 transition-all">
+                  Перейти <ArrowRight size={12} />
                 </div>
               </Link>
             </div>

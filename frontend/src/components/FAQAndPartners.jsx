@@ -12,7 +12,7 @@ export default function FAQAndPartners() {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="relative">
               <div className="rounded-3xl overflow-hidden h-[480px] md:h-[560px]">
-                <SmartImage src="https://images.unsplash.com/photo-1695603414636-987030c7a890" alt="Viknar'off виробництво" width={1000} className="w-full h-full transition-transform duration-1000 hover:scale-105" />
+                <SmartImage src="https://images.unsplash.com/photo-1565954786194-d22abeaac3ae" alt="Viknar'off виробництво" width={1000} className="w-full h-full transition-transform duration-1000 hover:scale-105" />
               </div>
               <div className="absolute -bottom-6 -right-4 md:-right-8 bg-[#FF5722] text-white p-6 md:p-8 rounded-3xl shadow-2xl max-w-xs">
                 <div className="font-display text-5xl md:text-6xl font-bold leading-none">19<span className="text-white/70 text-3xl">+</span></div>

@@ -43,10 +43,18 @@ export default function WindowsTabs() {
               className="group relative overflow-hidden rounded-2xl aspect-[4/5] card-hover reveal"
             >
               <SmartImage src={item.image} alt={item.name} width={500} className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-[2]" />
-              <div className="relative z-[3] h-full p-5 md:p-6 flex flex-col justify-end">
-                <h3 className="text-white font-semibold text-base md:text-lg mb-2 leading-tight">{item.name}</h3>
-                <span className="inline-flex items-center gap-1.5 text-white/80 text-xs group-hover:text-[#FF5722] group-hover:gap-2 transition-all">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent z-[2]" />
+              {item.subtitle && (
+                <span className="absolute top-3 left-3 z-[3] inline-block px-2.5 py-1 rounded-full bg-white/90 backdrop-blur text-[#FF5722] text-[10px] font-bold uppercase tracking-wider">
+                  {item.subtitle.split("·")[0].trim()}
+                </span>
+              )}
+              <div className="relative z-[3] h-full p-5 md:p-6 flex flex-col justify-end text-white">
+                <h3 className="font-display font-bold text-base md:text-lg mb-1.5 leading-tight">{item.name}</h3>
+                {item.subtitle && (
+                  <p className="text-white/80 text-[11px] md:text-xs mb-3 leading-snug">{item.subtitle}</p>
+                )}
+                <span className="inline-flex items-center gap-1.5 text-white/90 text-xs group-hover:text-[#FF5722] group-hover:gap-2 transition-all font-medium">
                   Детальніше <ArrowRight size={13} />
                 </span>
               </div>
