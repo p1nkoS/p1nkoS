@@ -7,9 +7,10 @@ import { Slider } from "../components/ui/slider";
 import { Checkbox } from "../components/ui/checkbox";
 import { Button } from "../components/ui/button";
 import { CATEGORIES, getProductsByCategory } from "../data/products";
-import { ArrowRight, ChevronRight, Filter, X, Volume2, Layers, Box, Globe, Tag, SlidersHorizontal, Phone } from "lucide-react";
+import { ArrowRight, ChevronRight, Filter, X, Volume2, Layers, Box, Globe, SlidersHorizontal } from "lucide-react";
 import { Phone as PhoneIcon } from "lucide-react";
 import SmartImage from "../components/SmartImage";
+import FloatingActions from "../components/FloatingActions";
 
 export default function CategoryPage() {
   const { slug } = useParams();
@@ -18,7 +19,6 @@ export default function CategoryPage() {
   const all = useMemo(() => getProductsByCategory(slug), [slug]);
 
   const [formOpen, setFormOpen] = useState(false);
-  const [showFloating, setShowFloating] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   // Filters
@@ -32,10 +32,7 @@ export default function CategoryPage() {
   const [sortBy, setSortBy] = useState("recommended");
 
   useEffect(() => {
-    const onScroll = () => setShowFloating(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll);
     window.scrollTo(0, 0);
-    return () => window.removeEventListener("scroll", onScroll);
   }, [slug]);
 
   const allBrands = useMemo(() => [...new Set(all.map((p) => p.brand))].sort(), [all]);
@@ -321,16 +318,7 @@ export default function CategoryPage() {
         </div>
       )}
 
-      {/* Floating call */}
-      <a
-        href="tel:+380687239722"
-        className={`fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#FF5722] hover:bg-[#e64a17] text-white shadow-2xl shadow-[#FF5722]/40 flex items-center justify-center transition-all duration-300 ${
-          showFloating ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <span className="absolute inset-0 rounded-full bg-[#FF5722] animate-ping opacity-30" />
-        <Phone size={20} className="relative" />
-      </a>
+      <FloatingActions />
     </div>
   );
 }

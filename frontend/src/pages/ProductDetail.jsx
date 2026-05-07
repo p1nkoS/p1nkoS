@@ -8,20 +8,17 @@ import { ArrowRight, ArrowLeft, ChevronRight, Volume2, Layers, Box, Globe, Shiel
 import { getProductBySlug, getProductsByCategory, CATEGORIES } from "../data/products";
 import { SITE_CONFIG } from "../data/mock";
 import SmartImage from "../components/SmartImage";
+import FloatingActions from "../components/FloatingActions";
 
 export default function ProductDetail() {
   const { slug } = useParams();
   const product = getProductBySlug(slug);
   const [formOpen, setFormOpen] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
-  const [showFloating, setShowFloating] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setActiveImg(0);
-    const onScroll = () => setShowFloating(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
   }, [slug]);
 
   if (!product) {
@@ -245,15 +242,7 @@ export default function ProductDetail() {
       <Footer />
       <FormModal open={formOpen} onOpenChange={setFormOpen} productSlug={product.slug} productName={product.name} />
 
-      <a
-        href="tel:+380687239722"
-        className={`fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#FF5722] hover:bg-[#e64a17] text-white shadow-2xl shadow-[#FF5722]/40 flex items-center justify-center transition-all duration-300 ${
-          showFloating ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <span className="absolute inset-0 rounded-full bg-[#FF5722] animate-ping opacity-30" />
-        <Phone size={20} className="relative" />
-      </a>
+      <FloatingActions />
     </div>
   );
 }
