@@ -21,6 +21,20 @@ export default function ProductDetail() {
     setActiveImg(0);
   }, [slug]);
 
+  // Reveal-on-scroll observer
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add("is-visible");
+        });
+      },
+      { threshold: 0.05 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [slug]);
+
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">

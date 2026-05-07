@@ -44,6 +44,20 @@ export default function CategoryPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, searchParams.toString()]);
 
+  // Reveal-on-scroll observer (re-attach when filtered items change)
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add("is-visible");
+        });
+      },
+      { threshold: 0.05 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  });
+
   const allBrands = useMemo(() => [...new Set(all.map((p) => p.brand))].sort(), [all]);
   const allCountries = useMemo(() => [...new Set(all.map((p) => p.country))].sort(), [all]);
   const allChambers = useMemo(() => [...new Set(all.map((p) => p.chambers).filter((c) => c > 0))].sort((a, b) => a - b), [all]);
