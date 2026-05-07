@@ -41,8 +41,8 @@ export default function Process({ onOpenForm }) {
             <Button onClick={onOpenForm} className="btn-shimmer rounded-full bg-[#FF5722] hover:bg-[#e64a17] text-white px-7 py-7 text-sm font-semibold">
               <Phone size={16} className="mr-2" /> Замовити замір
             </Button>
-            <a href="https://t.me/+380687239722" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-white/30 text-white hover:bg-white hover:text-[#1a1a1a] transition-all text-sm font-medium">
-              <MessageCircle size={16} /> Написати нам
+            <a href="https://t.me/viknaroffvin" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-white/30 text-white hover:bg-white hover:text-[#1a1a1a] transition-all text-sm font-medium">
+              <MessageCircle size={16} /> Написати в Telegram
             </a>
           </div>
         </div>

@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, Volume2, Layers, Box, Globe } from "lucide-react";
-import { WINDOW_MODELS } from "../data/mock";
+import { getProductsByCategory } from "../data/products";
 
-export default function WindowModels({ onOpenForm }) {
+export default function WindowModels() {
+  const models = getProductsByCategory("windows");
   return (
     <section className="section-pad bg-[#f5f1ec]">
       <div className="max-w-[1400px] mx-auto px-6">
@@ -12,38 +14,40 @@ export default function WindowModels({ onOpenForm }) {
               Вікна для твого <span className="text-[#FF5722]">комфорту</span>
             </h2>
           </div>
-          <p className="text-[#5a5a5a] md:max-w-md">Обирайте серед кращих європейських профілів Gealan, Decco, Aluprof та українських виробників.</p>
+          <Link to="/catalog/windows" className="group inline-flex items-center gap-2 px-6 py-4 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all font-medium text-sm">
+            Усі вікна з фільтрами <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {WINDOW_MODELS.map((m) => (
-            <div key={m.name} className="bg-white rounded-3xl overflow-hidden card-hover relative">
+          {models.map((m) => (
+            <Link key={m.slug} to={`/product/${m.slug}`} className="bg-white rounded-3xl overflow-hidden card-hover relative group">
               <span className="ribbon-tag">{m.badge}</span>
               <div className="img-zoom h-56 overflow-hidden">
                 <img src={m.image} alt={m.name} className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
-                <h3 className="font-display text-2xl font-bold mb-4">{m.name}</h3>
+                <h3 className="font-display text-2xl font-bold mb-4 group-hover:text-[#FF5722] transition-colors">{m.name}</h3>
                 <div className="grid grid-cols-2 gap-3 mb-5 text-sm">
                   <div className="flex items-start gap-2">
                     <Volume2 size={16} className="text-[#FF5722] mt-0.5 shrink-0" />
                     <div>
                       <div className="text-[#999] text-[11px] uppercase">Шумоіз.</div>
-                      <div className="font-medium">{m.soundproof}</div>
+                      <div className="font-medium">до {m.soundproof} дБ</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <Layers size={16} className="text-[#FF5722] mt-0.5 shrink-0" />
                     <div>
                       <div className="text-[#999] text-[11px] uppercase">Глибина</div>
-                      <div className="font-medium">{m.depth}</div>
+                      <div className="font-medium">{m.depth} мм</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <Box size={16} className="text-[#FF5722] mt-0.5 shrink-0" />
                     <div>
                       <div className="text-[#999] text-[11px] uppercase">Камери</div>
-                      <div className="font-medium">{m.chambers}</div>
+                      <div className="font-medium">{m.chambers || "—"}</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
@@ -55,13 +59,16 @@ export default function WindowModels({ onOpenForm }) {
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t border-[#f0e9e0]">
-                  <span className="text-xs text-[#999]">Склопакет {m.glass}</span>
-                  <button onClick={onOpenForm} className="inline-flex items-center gap-1.5 text-[#FF5722] text-sm font-semibold hover:gap-2 transition-all">
-                    Запитати ціну <ArrowRight size={14} />
-                  </button>
+                  <div>
+                    <div className="text-[10px] text-[#888] uppercase">від</div>
+                    <div className="font-display font-bold text-lg">{m.price.toLocaleString()} ₴<span className="text-xs text-[#888] font-normal">/м²</span></div>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-[#FF5722] text-sm font-semibold group-hover:gap-2 transition-all">
+                    Детальніше <ArrowRight size={14} />
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { WINDOW_TABS } from "../data/mock";
 
@@ -35,9 +36,9 @@ export default function WindowsTabs() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
           {WINDOW_TABS[active].items.map((item, i) => (
-            <a
+            <Link
               key={`${active}-${i}`}
-              href="#contact"
+              to="/catalog/windows"
               className="group relative overflow-hidden rounded-2xl aspect-[4/5] img-zoom card-hover"
             >
               <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
@@ -48,14 +49,14 @@ export default function WindowsTabs() {
                   Детальніше <ArrowRight size={13} />
                 </span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
 
         <div className="flex justify-center mt-10">
-          <a href="#contact" className="inline-flex items-center gap-2 px-7 py-4 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all font-medium text-sm">
+          <Link to="/catalog/windows" className="inline-flex items-center gap-2 px-7 py-4 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all font-medium text-sm">
             Переглянути всі вікна <ArrowRight size={16} />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

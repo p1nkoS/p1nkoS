@@ -46,7 +46,7 @@ export default function Home() {
         <Hero onOpenForm={openForm} />
         <ProductCategories />
         <WindowsTabs />
-        <WindowModels onOpenForm={openForm} />
+        <WindowModels />
         <Features />
         <Stats />
         <DoorsAndExtras />

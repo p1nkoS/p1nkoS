@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send, Globe } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, Globe, MessageCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -71,7 +71,15 @@ export default function Contact() {
             <div className="p-7 rounded-3xl bg-gradient-to-br from-[#FF5722] to-[#e64a17] text-white">
               <Globe size={28} className="mb-3" />
               <h3 className="font-display text-xl font-bold mb-2">12 країн світу</h3>
-              <p className="text-white/90 text-sm">Наші представництва: Україна, Норвегія, Італія, Нідерланди, Німеччина, Франція, Іспанія, Литва</p>
+              <p className="text-white/90 text-sm mb-5">Наші представництва: Україна, Норвегія, Італія, Нідерланди, Німеччина, Франція, Іспанія, Литва</p>
+              <div className="flex gap-2">
+                <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
+                  <MessageCircle size={14} /> Telegram
+                </a>
+                <a href={SITE_CONFIG.mailto} className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-medium transition-colors backdrop-blur-md">
+                  <Mail size={14} /> Email
+                </a>
+              </div>
             </div>
           </div>
 

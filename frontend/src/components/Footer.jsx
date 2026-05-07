@@ -1,4 +1,5 @@
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, MessageCircle } from "lucide-react";
 import { SITE_CONFIG, NAV_MENU } from "../data/mock";
 
 export default function Footer() {
@@ -13,6 +14,9 @@ export default function Footer() {
               Салон магазин у Вінниці. Металопластикові вікна, двері, балкони та розсувні системи від виробника. Європейська якість за доступною ціною.
             </p>
             <div className="flex gap-3">
+              <a href={SITE_CONFIG.telegram} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#0088cc] flex items-center justify-center transition-colors" aria-label="Telegram">
+                <MessageCircle size={16} />
+              </a>
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
                 <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#FF5722] flex items-center justify-center transition-colors">
                   <Icon size={16} />
@@ -27,7 +31,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {m.submenu.slice(0, 5).map((s) => (
                   <li key={s.name}>
-                    <a href={s.href} className="text-white/60 hover:text-[#FF5722] text-sm transition-colors link-underline">{s.name}</a>
+                    <Link to={s.href} className="text-white/60 hover:text-[#FF5722] text-sm transition-colors">{s.name}</Link>
                   </li>
                 ))}
               </ul>
