@@ -42,6 +42,19 @@ ADMIN_ALLOWED_EMAILS = {
 EMERGENT_AUTH_URL = "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data"
 SESSION_TTL_DAYS = 7
 
+# CORS origins: comma-separated env, plus always-allowed preview/localhost regex below
+_cors_env = os.environ.get("CORS_ORIGINS", "").strip()
+if _cors_env == "*" or _cors_env == "":
+    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:8001"]
+else:
+    CORS_ORIGINS = [o.strip() for o in _cors_env.split(",") if o.strip()]
+
+# Rate limit on POST /api/leads (per IP, per window)
+RATE_LIMIT_MAX = int(os.environ.get("LEADS_RATE_LIMIT_MAX", "5"))
+RATE_LIMIT_WINDOW_SEC = int(os.environ.get("LEADS_RATE_LIMIT_WINDOW_SEC", "60"))
+_rate_buckets: dict = {}  # ip -> list[float timestamps]
+_rate_lock = asyncio.Lock()
+
 if RESEND_API_KEY:
     resend.api_key = RESEND_API_KEY
 
@@ -218,6 +231,13 @@ async def create_session(request: Request, response: Response):
         })
 
     expires_at = datetime.now(timezone.utc) + timedelta(days=SESSION_TTL_DAYS)
+    # Cleanup: remove any expired sessions for this user + any prior session with same token
+    await db.user_sessions.delete_many({
+        "$or": [
+            {"user_id": user_id, "expires_at": {"$lt": datetime.now(timezone.utc)}},
+            {"session_token": session_token},
+        ]
+    })
     await db.user_sessions.insert_one({
         "user_id": user_id,
         "session_token": session_token,
@@ -287,10 +307,24 @@ async def get_status_checks():
 
 
 @api_router.post("/leads", response_model=LeadResponse, status_code=201)
-async def create_lead(payload: LeadCreate):
+async def create_lead(payload: LeadCreate, request: Request):
+    # Rate limit per IP (simple in-memory token bucket)
+    ip = request.headers.get("x-forwarded-for", "").split(",")[0].strip() or (request.client.host if request.client else "unknown")
+    now = datetime.now(timezone.utc).timestamp()
+    async with _rate_lock:
+        bucket = [t for t in _rate_buckets.get(ip, []) if now - t < RATE_LIMIT_WINDOW_SEC]
+        if len(bucket) >= RATE_LIMIT_MAX:
+            _rate_buckets[ip] = bucket
+            raise HTTPException(
+                status_code=429,
+                detail=f"Забагато заявок з вашого IP. Спробуйте за {RATE_LIMIT_WINDOW_SEC} секунд.",
+            )
+        bucket.append(now)
+        _rate_buckets[ip] = bucket
+
     lead = Lead(**payload.dict())
     await db.leads.insert_one(lead.dict())
-    logger.info(f"Lead created: {lead.id} {lead.name} {lead.phone}")
+    logger.info(f"Lead created: {lead.id} {lead.name} {lead.phone} (ip={ip})")
     # Fire-and-forget email
     asyncio.create_task(send_lead_notification(lead))
     return LeadResponse(
@@ -410,7 +444,7 @@ app.include_router(api_router)
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=["http://localhost:3000", "http://localhost:8001"],
+    allow_origins=CORS_ORIGINS,
     allow_origin_regex=r"https://.*\.preview\.emergentagent\.com",
     allow_methods=["*"],
     allow_headers=["*"],
