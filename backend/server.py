@@ -323,10 +323,13 @@ async def admin_list_leads(
         ]
     if date_from or date_to:
         rng: dict = {}
-        if date_from:
-            rng["$gte"] = datetime.fromisoformat(date_from).replace(tzinfo=timezone.utc)
-        if date_to:
-            rng["$lte"] = (datetime.fromisoformat(date_to) + timedelta(days=1)).replace(tzinfo=timezone.utc)
+        try:
+            if date_from:
+                rng["$gte"] = datetime.fromisoformat(date_from).replace(tzinfo=timezone.utc)
+            if date_to:
+                rng["$lte"] = (datetime.fromisoformat(date_to) + timedelta(days=1)).replace(tzinfo=timezone.utc)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid date format, expected YYYY-MM-DD")
         query["created_at"] = rng
 
     total = await db.leads.count_documents(query)
