@@ -1,26 +1,39 @@
-# Viknar'off Vinnytsia — PRD
-
 ## Project
-Лендінг + каталог вікон/дверей/розсувних/алюм./додаткових товарів. React + FastAPI + MongoDB.
+Viknar'off Vinnytsia — Landing site for windows/doors company.
+Stack: FastAPI + MongoDB + React.
+This session: finish & verify the backend (lead reception + admin transfer/management).
 
-## Implemented (2026-01)
-- Видалено позицію Decco 71 з products.js (каталог вікон)
-- Оновлено іконки в секції "Все для завершення проєкту" (DoorsAndExtras.jsx) — кожна іконка відповідає опису товару:
-  - Антимоскітні сітки → Bug
-  - Підвіконня → PanelTop
-  - Відливи → CloudRain
-  - Склопакети → Layers3
-  - Фурнітура → Cog
-  - HPL панелі → PanelsTopLeft
-  - Захисні ролети → ShieldCheck
-  - Ламінація → Palette
-- Бекенд: виправлено `datetime.utcnow()` → `datetime.now(timezone.utc)`, переміщено ініціалізацію `logger` ДО routes (потенційний race у `create_lead`), виправлено typo slug `sklopackety`→`sklopakety` у ICON_MAP.
+## Status (2026-05)
+### Backend - server.py (FastAPI)
+Endpoints:
+- GET  /api/                       — health
+- POST /api/leads                  — public, create lead + email notify via Resend
+- POST /api/auth/session           — exchange Emergent OAuth session_id → cookie + token
+- GET  /api/auth/me                — current user
+- POST /api/auth/logout            — clear session
+- GET  /api/admin/leads            — list with filters (q, status, date_from, date_to), pagination
+- PATCH /api/admin/leads/{id}/status?status=...  — new|contacted|converted|rejected
+- DELETE /api/admin/leads/{id}     — delete lead
+- GET  /api/admin/leads/export.csv — streaming CSV export (utf-8, BOM-friendly headers)
+- GET  /api/admin/stats            — counts per status
 
-## Verified
-- GET /api/ → 200 OK
-- POST /api/leads → 201, заявка зберігається в MongoDB
-- Frontend: каталог `/catalog/windows` показує 7 продуктів (без Decco 71); секція `#additional` рендерить нові іконки
+Auth: cookie OR `Authorization: Bearer <session_token>` (cookie set on /auth/session).
+Admin gate via ADMIN_ALLOWED_EMAILS env (set to viknaroffvin@gmail.com).
+Email: Resend configured. RESEND_API_KEY in backend/.env. SENDER_EMAIL=onboarding@resend.dev (domain not yet verified).
+  Note: with onboarding@resend.dev sender, Resend allows delivery only to API-key owner's account (viknaroffvin@gmail.com).
+
+### Fixes this session
+- /app/backend/.env: added RESEND_API_KEY, SENDER_EMAIL, LEAD_NOTIFY_EMAIL, ADMIN_ALLOWED_EMAILS
+- /app/frontend/src/pages/AdminLeads.jsx: handleExport now calls existing `adminExportCsv()` (was calling undefined `adminExportCsvUrl()`)
+- Installed `resend==2.30.0`
+
+### Manual verified (curl)
+- POST /api/leads → 201, MongoDB row + Resend email IDs returned in logs
+- Validation 422 for short fields
+- GET /api/admin/leads 401 w/o auth, 403 for non-admin email
+- Stats, filter q/status, PATCH status, DELETE, CSV export — all 200 OK
+- External REACT_APP_BACKEND_URL POST /api/leads — 201
 
 ## Backlog
-- REACT_APP_BACKEND_URL = localhost:8001 у фронт .env — потрібен зовнішній preview URL для деплою
-- Адмін-панель для лідів (PATCH /api/leads/{id}/status вже є — можна підключити UI)
+- Verify production domain in Resend (so SENDER_EMAIL can become noreply@domain) — instructions provided to user
+- Admin panel UI was already in place; only export handler bug fixed

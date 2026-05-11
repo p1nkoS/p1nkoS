@@ -120,11 +120,12 @@ export default function AdminLeads() {
     navigate("/admin", { replace: true });
   };
 
-  const handleExport = () => {
-    const a = document.createElement("a");
-    a.href = adminExportCsvUrl();
-    a.download = "leads.csv";
-    document.body.appendChild(a); a.click(); a.remove();
+  const handleExport = async () => {
+    try {
+      await adminExportCsv();
+    } catch (e) {
+      console.error("Export failed", e);
+    }
   };
 
   const formatted = useMemo(() => leads.map((l) => ({

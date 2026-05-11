@@ -1,0 +1,41 @@
+{
+  "summary": "Comprehensive backend testing of Viknar'off Vinnytsia API. All 32 tests passed across health, public lead creation+validation, auth (me/logout/gating), admin leads (filters, pagination, status update, delete), admin stats, and CSV export. Resend email sending verified via backend logs (multiple 'Email sent for lead ...' entries with Resend IDs).",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/auth/session", "issue": "If a user logs in twice the second login inserts a duplicate row in user_sessions for the same user_id (no upsert / no cleanup of older sessions). Not breaking, but sessions table will grow unbounded."},
+      {"endpoint": "/api/admin/leads (date_from/date_to)", "issue": "fromisoformat raises ValueError for malformed dates (e.g. '2026-13-40') → FastAPI returns 500 instead of 400/422. Wrap in try/except and raise HTTPException(400)."},
+      {"endpoint": "CORS", "issue": "allow_origins is restricted to localhost + *.preview.emergentagent.com regex; deployments on a custom production domain (e.g. viknaroff.com) will be blocked. Make allowed origins env-configurable for prod."}
+    ]
+  },
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_backend_api.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "(Optional) Harden date_from/date_to parsing in /api/admin/leads to return 400 instead of 500 on malformed input.",
+    "(Optional) Deduplicate user_sessions on /api/auth/session login (delete old sessions for the user, or upsert).",
+    "(Optional) Make CORS origins env-driven so production domain works.",
+    "Resend domain is unverified — currently delivers only to API-key owner. Verify sender domain before going live."
+  ],
+  "critical_code_review_comments": [
+    "server.py is a single 419-line file mixing models, auth, email, public + admin routes. Acceptable now, but split into routers/models/services modules before it grows.",
+    "Lead model has no index on 'id' or 'created_at' in Mongo — list/sort/filter performance will degrade as volume grows. Add indexes via startup hook.",
+    "send_lead_notification is fire-and-forget via asyncio.create_task; on uvicorn graceful shutdown the task can be cancelled mid-send. Consider awaiting via BackgroundTasks or a small queue.",
+    "ADMIN_ALLOWED_EMAILS is read once at import; changes require backend restart. Acceptable for single-tenant ops but document it.",
+    "No rate limiting on POST /api/leads — abusable for spam. Add basic IP throttling or hCaptcha.",
+    "/api/admin/leads/{id}/status takes status as query param; PATCH bodies are more conventional. Minor stylistic point."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_backend_api.py (new, 32 tests)",
+    "/app/backend/tests/test_leads.py (removed — outdated, predated admin auth)"
+  ],
+  "success_rate": {"backend": "100% (32/32)", "frontend": "not tested (per request)"},
+  "test_credentials": "Admin: Authorization: Bearer test_session_admin_001 (email viknaroffvin@gmail.com). Non-admin: Bearer test_session_nonadmin_001 (email nonadmin@test.com). Both seeded in Mongo (test_database.users + user_sessions).",
+  "seed_data_creation": "Seeded admin + non-admin users and sessions in Mongo before running. Created TEST_-prefixed leads during tests; session-scoped autouse fixture cleans them up at end.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "test_backend_api.py is the canonical regression suite. Re-seed mongo (see /app/memory/test_credentials.md) before running. Tests use REACT_APP_BACKEND_URL from /app/frontend/.env. Resend works end-to-end (verified via backend logs 'Email sent for lead ... : <resend-id>').",
+  "rca of the issue": "No bugs found. Email send works (confirmed via backend log entries with Resend message IDs). All auth gating (401 no-token, 403 non-admin, 200 admin) behaves correctly. CSV export returns UTF-8 with Ukrainian headers (Імʼя, Телефон, Статус etc.). Status updates persist; deletes remove the doc; non-existent IDs correctly return 404; invalid status returns 400."
+}
