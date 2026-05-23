@@ -84,7 +84,7 @@ export default function CategoryPage() {
     if (sortBy === "price-desc") res = [...res].sort((a, b) => b.price - a.price);
     if (sortBy === "sound") res = [...res].sort((a, b) => b.soundproof - a.soundproof);
     return res;
-  }, [all, brands, countries, chambers, priceRange, soundMin, sortBy]);
+}, [all, brands, countries, chambers, priceRange, soundMin, sortBy, selectedMaterial]);
 
   const toggle = (arr, setArr, val) => {
     setArr(arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val]);
