@@ -107,6 +107,11 @@ class User(BaseModel):
     name: str
     picture: Optional[str] = ""
 
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+    
+
 
 # ============================================================
 # EMAIL (Resend, async via to_thread)
@@ -263,6 +268,66 @@ async def create_session(request: Request, response: Response):
         "is_admin": is_admin,
         "session_token": session_token,
     }
+
+@api_router.post("/auth/login")
+async def auth_login(body: LoginRequest, response: Response):
+    email = body.email.strip().lower()
+    if email not in ADMIN_ALLOWED_EMAILS:
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    admin_password = os.environ.get("ADMIN_PASSWORD", "viknaroff_admin_pass")
+    if body.password != admin_password:
+        raise HTTPException(status_code=401, detail="Invalid password")
+
+    user_id = "admin_user"
+    session_token = f"session_{uuid.uuid4().hex}"
+
+    # Upsert user
+    existing = await db.users.find_one({"email": email}, {"_id": 0})
+    if existing:
+        user_id = existing["user_id"]
+    else:
+        user_id = f"user_{uuid.uuid4().hex[:12]}"
+        await db.users.insert_one({
+            "user_id": user_id,
+            "email": email,
+            "name": "Admin",
+            "picture": "",
+            "created_at": datetime.now(timezone.utc),
+        })
+
+    expires_at = datetime.now(timezone.utc) + timedelta(days=SESSION_TTL_DAYS)
+    await db.user_sessions.delete_many({
+        "$or": [
+            {"user_id": user_id, "expires_at": {"$lt": datetime.now(timezone.utc)}},
+            {"session_token": session_token},
+        ]
+    })
+    await db.user_sessions.insert_one({
+        "user_id": user_id,
+        "session_token": session_token,
+        "expires_at": expires_at,
+        "created_at": datetime.now(timezone.utc),
+    })
+
+    response.set_cookie(
+        key="session_token",
+        value=session_token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        path="/",
+        max_age=SESSION_TTL_DAYS * 24 * 3600,
+    )
+    return {
+        "user_id": user_id,
+        "email": email,
+        "name": "Admin",
+        "picture": "",
+        "is_admin": True,
+        "session_token": session_token,
+    }
+
 
 
 @api_router.get("/auth/me")
