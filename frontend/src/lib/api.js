@@ -27,15 +27,17 @@ export async function createLead(payload) {
 }
 
 // Auth
+export async function login(email, password) {
+  const res = await client.post("/auth/login", { email, password });
+  if (res.data?.session_token) setToken(res.data.session_token);
+  return res.data;
+}
 export async function exchangeSession(session_id) {
   const res = await client.post("/auth/session", { session_id });
   if (res.data?.session_token) setToken(res.data.session_token);
   return res.data;
 }
-export async function fetchMe() {
-  const res = await client.get("/auth/me");
-  return res.data;
-}
+
 export async function logout() {
   try { await client.post("/auth/logout"); } finally { clearToken(); }
 }
