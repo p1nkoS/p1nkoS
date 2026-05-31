@@ -83,7 +83,7 @@ export default function Contact() {
               <div className="p-5 rounded-3xl bg-[#f5f1ec]">
                 <Clock size={22} className="text-[#FF5722] mb-3" />
                 <h4 className="font-semibold mb-1 text-sm">Графік</h4>
-                <p className="text-xs text-[#5a5a5a]">Пн-Пт 9:00-18:00<br />Сб 9:00-15:00</p>
+                <p className="text-xs text-[#5a5a5a]">Пн-Пт 9:00-17:00<br />Сб, Нд: Вихідний</p>
               </div>
               <div className="p-5 rounded-3xl bg-[#f5f1ec]">
                 <Mail size={22} className="text-[#FF5722] mb-3" />
