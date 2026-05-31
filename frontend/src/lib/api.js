@@ -37,7 +37,10 @@ export async function exchangeSession(session_id) {
   if (res.data?.session_token) setToken(res.data.session_token);
   return res.data;
 }
-
+export async function fetchMe() {
+  const res = await client.get("/auth/me");
+  return res.data;
+}
 export async function logout() {
   try { await client.post("/auth/logout"); } finally { clearToken(); }
 }
@@ -60,7 +63,6 @@ export async function adminStats() {
   return res.data;
 }
 export async function adminExportCsv() {
-  // Use fetch to attach Bearer header and download blob
   const res = await fetch(`${API}/admin/leads/export.csv`, {
     headers: { Authorization: `Bearer ${getToken() || ""}` },
   });
